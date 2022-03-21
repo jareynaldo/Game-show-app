@@ -1,14 +1,13 @@
 const keyboard = document.querySelectorAll(`button`);
 const mainDiv = document.querySelector(`#phrase`);
 const ul = document.querySelector(`#ul`);
-const reset = document.querySelector(`#btn_reset`);
+const reset = document.querySelector(`.btn__reset`);
 const overlay = document.querySelector(`#overlay`)
 const imgs = document.querySelectorAll(`img`);
 const start = document.querySelector(`.start`).firstElementChild;
+const createdBtn = document.querySelectorAll('.btn__reset')[1];
 const phrases = [ `whos house is this`, `the cat ate it`, `who is joe`, `your person`, `who knows`];
 let missed = 0;
-
-
 function rando(){ 
  let number = Math.floor(Math.random() * 5);
  return number;
@@ -54,14 +53,14 @@ function checkLetter (argg){
             }   
         }
     if(returnValue === ``) { 
-        return true;
+        return `true`;
     } else {
         return returnValue;
        }
 }
 
-function missedAnswer (letterFound){
-    if(letterFound){
+function missedAnswer (found){
+    if(found === `true`){
         for(j = 0; j < imgs.length ; j++){
             if(imgs[j].src === 'file:///C:/Treehouse%20techdegree/Unit-6-Game-Show-App/Game-show-app/images/liveHeart.png'){
                 imgs[j].src='file:///C:/Treehouse%20techdegree/Unit-6-Game-Show-App/Game-show-app/images/lostHeart.png';
@@ -71,6 +70,20 @@ function missedAnswer (letterFound){
         }
     }
 }
+function newBtn(name){ 
+    let addedBtn = document.createElement(`a`);
+    addedBtn.textContent= name;
+    addedBtn.className= `btn__reset`;
+    overlay.appendChild(addedBtn);
+    return addedBtn;
+}
+function checkNewBtn(target){ 
+    target.addEventListener(`click`, () => { 
+        console.log(`yes`);
+        overlay.className = `start`;
+    })
+}
+
 
 function checkWin (){ 
     const letters = document.querySelectorAll(`.show`);
@@ -78,10 +91,15 @@ function checkWin (){
     if (letters.length === correct.length){ 
         overlay.className = `win`;
         start.textContent=`Congrats! you won.`;
+        let newBtn1 = addedBtn(`see if you can do it twice`);
+        checkNewBtn(newBtn1);
     }
     if (missed >= 5){ 
         overlay.className = `lose`;
         start.textContent=`sorry about that, you lost :(.`;
+        reset.style.display =`none`;
+        let newBtn1 = newBtn(`Try again`);
+        checkNewBtn(newBtn1);
     }
 }
 
@@ -94,6 +112,7 @@ for (let i = 0; i < keyboard.length ; i++){
                 letterFound += checkLetter(targeted.textContent);
                 missedAnswer(letterFound);
                 checkWin(); 
+                 keyboard[i].disabled = true;
             }
     })
 }
