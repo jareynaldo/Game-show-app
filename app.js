@@ -54,14 +54,14 @@ function checkLetter (argg){
             }   
         }
     if(returnValue === ``) { 
-        return `true`;
+        return false;
     } else {
         return returnValue;
        }
 }
 // will change the pictures to their apropriate phase
 function missedAnswer (found){
-    if(found === `true`){
+    if(!found){
         for(j = 0; j < imgs.length ; j++){
             if(imgs[j].src === 'file:///C:/Treehouse%20techdegree/Unit-6-Game-Show-App/Game-show-app/images/liveHeart.png'){
                 imgs[j].src='file:///C:/Treehouse%20techdegree/Unit-6-Game-Show-App/Game-show-app/images/lostHeart.png';
@@ -108,10 +108,10 @@ function resetEverything(){
         resetButton[x].disabled = false;
         resetButton[x].className=``;
     }
-    missed -= 5;
     let phraseArray = getRandomPhraseAsArray();
     addPhraseToDisplay(phraseArray);
     resetPicture();
+    missed -= 5;
 }
 // checks if the game has been won or lost and resets the game
 function checkWin (){ 
@@ -138,11 +138,10 @@ function checkWin (){
 
 for (let i = 0; i < keyboard.length ; i++){
     keyboard[i].addEventListener(`click`, (e) => { 
-        let letterFound = ``;
             if(e.target === keyboard[i]){
                 let targeted = e.target;
                 targeted.className = `chosen`;
-                letterFound += checkLetter(targeted.textContent);
+                let letterFound = checkLetter(targeted.textContent);
                 missedAnswer(letterFound);
                 checkWin(); 
                  keyboard[i].disabled = true;
