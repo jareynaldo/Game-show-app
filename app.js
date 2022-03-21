@@ -1,12 +1,12 @@
 const keyboard = document.querySelectorAll(`button`);
 const mainDiv = document.querySelector(`#phrase`);
-const ul = document.querySelector(`#ul`);
+const unorderedList = document.querySelector(`#ul`);
 const reset = document.querySelector(`.btn__reset`);
 const overlay = document.querySelector(`#overlay`)
 const imgs = document.querySelectorAll(`img`);
 const start = document.querySelector(`.start`).firstElementChild;
 const createdBtn = document.querySelectorAll('.btn__reset')[1];
-const phrases = [ `whos house is this`, `the cat ate it`, `who is joe`, `your person`, `who knows`];
+const phrases = [ `what does the dog say`, `what are those`, `your mom`, `wozers`, `totally crazy`];
 let missed = 0;
 function rando(){ 
  let number = Math.floor(Math.random() * 5);
@@ -23,11 +23,10 @@ function getRandomPhraseAsArray(){
 } 
 
 function addPhraseToDisplay (theWord) { 
-    // let theWord = argg;
  for(let i = 0; i < theWord.length; i++ ){
      let letter = document.createElement(`li`);
      letter.textContent= theWord[i];
-     ul.appendChild(letter);
+     unorderedList.appendChild(letter);
      if(theWord[i] !== ` `){ 
         letter.className = `letter`;
     } else { 
@@ -38,9 +37,11 @@ function addPhraseToDisplay (theWord) {
 let phraseArray = getRandomPhraseAsArray();
 addPhraseToDisplay(phraseArray);
 
+// will check if the letter chosen is the same as a phrase that
+// already exist 
 
 function checkLetter (argg){ 
-    const letters = ul.children;
+    const letters = unorderedList.children;
      let returnValue = ``;
      let word = [];
      for(var i = 0; i < letters.length - 1; i++){ 
@@ -58,7 +59,7 @@ function checkLetter (argg){
         return returnValue;
        }
 }
-
+// will change the pictures to their apropriate phase
 function missedAnswer (found){
     if(found === `true`){
         for(j = 0; j < imgs.length ; j++){
@@ -70,38 +71,70 @@ function missedAnswer (found){
         }
     }
 }
+function resetPicture (){
+    for(j = 0; j < imgs.length ; j++){
+        if(imgs[j].src === 'file:///C:/Treehouse%20techdegree/Unit-6-Game-Show-App/Game-show-app/images/lostHeart.png'){
+            imgs[j].src='file:///C:/Treehouse%20techdegree/Unit-6-Game-Show-App/Game-show-app/images/liveHeart.png';
+            missed 
+        }
+    }
+}
+
+//     will create new button, check if the new btn has been clicked, and reset the
+//      old phrase to a new one
 function newBtn(name){ 
-    let addedBtn = document.createElement(`a`);
-    addedBtn.textContent= name;
-    addedBtn.className= `btn__reset`;
-    overlay.appendChild(addedBtn);
-    return addedBtn;
+    let btnClass = document.querySelectorAll(`.btn__reset`);
+    if(btnClass.length < 2){
+        reset.style.display =`none`;
+        let addedBtn = document.createElement(`a`);
+        addedBtn.textContent= name;
+        addedBtn.className= `btn__reset`;
+        overlay.appendChild(addedBtn);
+        return addedBtn;
+    }
 }
 function checkNewBtn(target){ 
     target.addEventListener(`click`, () => { 
-        console.log(`yes`);
         overlay.className = `start`;
     })
 }
-
-
+function resetEverything(){ 
+    let resetButton = document.getElementsByClassName(`chosen`);
+    let deletingElements = unorderedList.children;
+    for(let z = 0; z < deletingElements.length;){
+        unorderedList.removeChild(unorderedList.firstChild);
+    }
+    for( let x = 0; x < resetButton.length; ){ 
+        resetButton[x].disabled = false;
+        resetButton[x].className=``;
+    }
+    missed -= 5;
+    let phraseArray = getRandomPhraseAsArray();
+    addPhraseToDisplay(phraseArray);
+    resetPicture();
+}
+// checks if the game has been won or lost and resets the game
 function checkWin (){ 
     const letters = document.querySelectorAll(`.show`);
     const correct = document.querySelectorAll(`.letter`);
     if (letters.length === correct.length){ 
         overlay.className = `win`;
         start.textContent=`Congrats! you won.`;
-        let newBtn1 = addedBtn(`see if you can do it twice`);
+        let newBtn1 = newBtn(`see if you can do it twice`);
+        resetEverything();
         checkNewBtn(newBtn1);
     }
     if (missed >= 5){ 
         overlay.className = `lose`;
         start.textContent=`sorry about that, you lost :(.`;
-        reset.style.display =`none`;
-        let newBtn1 = newBtn(`Try again`);
-        checkNewBtn(newBtn1);
+        let newBtn2 = newBtn(`Try again`);
+        resetEverything();
+        checkNewBtn(newBtn2);
     }
 }
+
+// to check if new evetns are happeing and basically uses all of the 
+// above functions to put it all togther 
 
 for (let i = 0; i < keyboard.length ; i++){
     keyboard[i].addEventListener(`click`, (e) => { 
