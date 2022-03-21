@@ -95,6 +95,7 @@ button {
 .show {
   color: #000;
   background-color: #76CE82;
+  transition: background-color 1s ease-in;
 }
 
 /* Keyboard */
@@ -148,6 +149,7 @@ button {
 
 .win {
   background-color: var(--color-win);
+  display: flex !important;
 }
 
 .win a {
@@ -155,7 +157,9 @@ button {
 }
 
 .lose {
+  transition: ease-in-out;
   background-color: var(--color-lose);
+  display: flex !important;
 }
 
 .lose a {

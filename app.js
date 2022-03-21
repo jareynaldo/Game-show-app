@@ -1,10 +1,11 @@
 const keyboard = document.querySelectorAll(`button`);
 const mainDiv = document.querySelector(`#phrase`);
 const ul = document.querySelector(`#ul`);
-const start = document.querySelector(`#btn_reset`);
+const reset = document.querySelector(`#btn_reset`);
 const overlay = document.querySelector(`#overlay`)
 const imgs = document.querySelectorAll(`img`);
-const phrases = [ `who is there`, `we are home`, `our house`, `this boat`, `what else`];
+const start = document.querySelector(`.start`).firstElementChild;
+const phrases = [ `whos house is this`, `the cat ate it`, `who is joe`, `your person`, `who knows`];
 let missed = 0;
 
 
@@ -53,15 +54,15 @@ function checkLetter (argg){
             }   
         }
     if(returnValue === ``) { 
-        return 'yes';
+        return true;
     } else {
         return returnValue;
        }
 }
 
 function missedAnswer (letterFound){
-    if(letterFound === 'yes'){
-        for(j = 0; j < imgs.length - 1; j++){
+    if(letterFound){
+        for(j = 0; j < imgs.length ; j++){
             if(imgs[j].src === 'file:///C:/Treehouse%20techdegree/Unit-6-Game-Show-App/Game-show-app/images/liveHeart.png'){
                 imgs[j].src='file:///C:/Treehouse%20techdegree/Unit-6-Game-Show-App/Game-show-app/images/lostHeart.png';
                 missed += 1;
@@ -71,15 +72,28 @@ function missedAnswer (letterFound){
     }
 }
 
+function checkWin (){ 
+    const letters = document.querySelectorAll(`.show`);
+    const correct = document.querySelectorAll(`.letter`);
+    if (letters.length === correct.length){ 
+        overlay.className = `win`;
+        start.textContent=`Congrats! you won.`;
+    }
+    if (missed >= 5){ 
+        overlay.className = `lose`;
+        start.textContent=`sorry about that, you lost :(.`;
+    }
+}
 
-for (let i = 0; i < keyboard.length - 1; i++){
+for (let i = 0; i < keyboard.length ; i++){
     keyboard[i].addEventListener(`click`, (e) => { 
         let letterFound = ``;
             if(e.target === keyboard[i]){
                 let targeted = e.target;
                 targeted.className = `chosen`;
                 letterFound += checkLetter(targeted.textContent);
+                missedAnswer(letterFound);
+                checkWin(); 
             }
-         missedAnswer(letterFound);
     })
 }
