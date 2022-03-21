@@ -1,11 +1,12 @@
 const keyboard = document.querySelectorAll(`button`);
-const div = document.querySelector(`#phrase`);
+const mainDiv = document.querySelector(`#phrase`);
 const ul = document.querySelector(`#ul`);
 const start = document.querySelector(`#btn_reset`);
 const overlay = document.querySelector(`#overlay`)
 const imgs = document.querySelectorAll(`img`);
 const phrases = [ `who is there`, `we are home`, `our house`, `this boat`, `what else`];
 let missed = 0;
+
 
 function rando(){ 
  let number = Math.floor(Math.random() * 5);
@@ -29,6 +30,8 @@ function addPhraseToDisplay (theWord) {
      ul.appendChild(letter);
      if(theWord[i] !== ` `){ 
         letter.className = `letter`;
+    } else { 
+        letter.className = `space`;
     }
  }
 }
@@ -43,17 +46,11 @@ function checkLetter (argg){
      for(var i = 0; i < letters.length - 1; i++){ 
         word[i] = letters[i].textContent;
      }
-     z = 0;
-     console.log(letters);
-     for(let j = 0; j < word.length; j++){
-            if(word[j] === argg){ 
-                letters[z].className = `show`;
-                returnValue += word[j];   
-                z++; 
-            } else{ 
-                z++; 
-            }
-            
+     for(let j = 0; j < letters.length; j++){
+            if(letters[j].textContent === argg){
+                letters[j].className += ` show`;
+                returnValue += letters[j];   
+            }   
         }
     if(returnValue === ``) { 
         return 'yes';
@@ -62,25 +59,27 @@ function checkLetter (argg){
        }
 }
 
+function missedAnswer (letterFound){
+    if(letterFound === 'yes'){
+        for(j = 0; j < imgs.length - 1; j++){
+            if(imgs[j].src === 'file:///C:/Treehouse%20techdegree/Unit-6-Game-Show-App/Game-show-app/images/liveHeart.png'){
+                imgs[j].src='file:///C:/Treehouse%20techdegree/Unit-6-Game-Show-App/Game-show-app/images/lostHeart.png';
+                missed += 1;
+                break;
+            }
+        }
+    }
+}
+
 
 for (let i = 0; i < keyboard.length - 1; i++){
     keyboard[i].addEventListener(`click`, (e) => { 
         let letterFound = ``;
-        for(i = 0; i < keyboard.length - 1; i++){
             if(e.target === keyboard[i]){
                 let targeted = e.target;
                 targeted.className = `chosen`;
                 letterFound += checkLetter(targeted.textContent);
             }
-            if(letterFound === 'yes'){
-                console.log(`it work`);
-                for(j = 0; j < imgs.length - 1; j++){
-                    if(imgs[j].src === 'images/liveHeart.png'){
-                        imgs[j].src='images/lostHeart.png';
-                    }
-                }
-            missed += 1;
-            }
-        }
-    }
-);}
+         missedAnswer(letterFound);
+    })
+}
