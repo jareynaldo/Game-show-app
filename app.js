@@ -62,21 +62,16 @@ function checkLetter (argg){
 // will change the pictures to their apropriate phase
 function missedAnswer (found){
     if(!found){
-        for(j = 0; j < imgs.length ; j++){
-            if(imgs[j].src === 'file:///C:/Treehouse%20techdegree/Unit-6-Game-Show-App/Game-show-app/images/liveHeart.png'){
-                imgs[j].src='file:///C:/Treehouse%20techdegree/Unit-6-Game-Show-App/Game-show-app/images/lostHeart.png';
-                missed += 1;
-                break;
-            }
-        }
+        imgs[missed].src="images/lostHeart.png";
+        missed += 1;
     }
 }
 function resetPicture (){
+    missed -= 5;
     for(j = 0; j < imgs.length ; j++){
-        if(imgs[j].src === 'file:///C:/Treehouse%20techdegree/Unit-6-Game-Show-App/Game-show-app/images/lostHeart.png'){
-            imgs[j].src='file:///C:/Treehouse%20techdegree/Unit-6-Game-Show-App/Game-show-app/images/liveHeart.png';
-            missed 
-        }
+        imgs[missed].src="images/liveHeart.png";
+        missed++;
+        
     }
 }
 
