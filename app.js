@@ -7,7 +7,7 @@ const imgs = document.querySelectorAll(`img`);
 const start = document.querySelector(`.start`).firstElementChild;
 const createdBtn = document.querySelectorAll('.btn__reset')[1];
 const phrases = [ `what does the dog say`, `what are those`, `your mom`, `wozers`, `totally crazy`];
-let missed = 0;
+var missed = 0;
 function rando(){ 
  let number = Math.floor(Math.random() * 5);
  return number;
@@ -67,7 +67,7 @@ function missedAnswer (found){
     }
 }
 function resetPicture (){
-    missed -= 5;
+    missed = 0;
     for(j = 0; j < imgs.length ; j++){
         imgs[missed].src="images/liveHeart.png";
         missed++;
@@ -133,13 +133,13 @@ function checkWin (){
 
 for (let i = 0; i < keyboard.length ; i++){
     keyboard[i].addEventListener(`click`, (e) => { 
-            if(e.target === keyboard[i]){
-                let targeted = e.target;
-                targeted.className = `chosen`;
-                let letterFound = checkLetter(targeted.textContent);
-                missedAnswer(letterFound);
-                checkWin(); 
-                 keyboard[i].disabled = true;
-            }
+        if(e.target === keyboard[i]){
+            let targeted = e.target;
+            targeted.className = `chosen`;
+            let letterFound = checkLetter(targeted.textContent);
+            missedAnswer(letterFound);
+            checkWin(); 
+            keyboard[i].disabled = true;
+        }
     })
 }
