@@ -6,7 +6,7 @@ const overlay = document.querySelector(`#overlay`)
 const imgs = document.querySelectorAll(`img`);
 const start = document.querySelector(`.start`).firstElementChild;
 const createdBtn = document.querySelectorAll('.btn__reset')[1];
-const phrases = [ `what does the dog say`, `what are those`, `your mom`, `wozers`, `totally crazy`];
+const phrases = [ `supercalifragilisticexpialidocious`, `sphinx`, `labyrinthine`, `bamboozle`, `kaleidoscope`];
 var missed = 0;
 function rando(){ 
  let number = Math.floor(Math.random() * 5);
@@ -22,12 +22,17 @@ function getRandomPhraseAsArray(){
     return  phrases[rando()].split(``);
 } 
 
-function addPhraseToDisplay (theWord) { 
- for(let i = 0; i < theWord.length; i++ ){
+/**
+ * The function `addPhraseToDisplay` takes an array of phrases and creates a list of letters and spaces
+ * in the HTML document.
+ * @param phraseArray - An array of phrases or words that you want to display on the webpage.
+ */
+function addPhraseToDisplay (phraseArray) { 
+ for(let i = 0; i < phraseArray.length; i++ ){
      let letter = document.createElement(`li`);
-     letter.textContent= theWord[i];
+     letter.textContent= phraseArray[i];
      unorderedList.appendChild(letter);
-     if(theWord[i] !== ` `){ 
+     if(phraseArray[i] !== ` `){ 
         letter.className = `letter`;
     } else { 
         letter.className = `space`;
